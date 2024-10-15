@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoData Viewer</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <h1>GeoData Locations</h1>
+    <div id="geoDataContainer">
+        <ul id="geoDataList"></ul>
+    </div>
+    <div id="loadingMessage" style="display:none;">Loading...</div>
+    <div id="notification" style="display:none; color: green;">Request sent</div> <!-- Notification element -->
+
+    <h2>Add a New Location</h2>
+    <form id="addLocationForm">
+        <label for="locationName">Location Name:</label>
+        <input type="text" id="locationName" name="locationName" required>
+        
+        <label for="latitude">Latitude:</label>
+        <input type="number" id="latitude" name="latitude" step="0.0001" required>
+        
+        <label for="longitude">Longitude:</label>
+        <input type="number" id="longitude" name="longitude" step="0.0001" required>
+        
+        <button type="submit">Add Location</button>
+    </form>
+
+    <script>
+        const apiUrl = 'https://free-ap-south-1.cosmocloud.io/development/api/geodata';
+        const headers = {
+            'Content-Type': 'application/json',
+            'projectId': '67081f88fc3c8a64f75beab4',
+            'environmentId': '6706553059c9b368f802aa16'
+        };
+
+        // Function to fetch GeoData and display it
+        function fetchGeoData() {
+            document.getElementById('loadingMessage').style.display = 'block';
+
+            fetch(apiUrl, {
+                method: 'GET',
+                headers: headers
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch GeoData');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const geoDataList = document.getElementById('geoDataList');
+                geoDataList.innerHTML = '';
+
+                data.forEach(location => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Location: ${location.locationName}, Lat: ${location.latitude}, Long: ${location.longitude}`;
+                    geoDataList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                document.getElementById('loadingMessage').style.display = 'none';
+            });
+        }
+
+        // Function to add a new location
+        function addLocation(event) {
+            event.preventDefault();
+
+            const locationName = document.getElementById('locationName').value;
+            const latitude = parseFloat(document.getElementById('latitude').value);
+            const longitude = parseFloat(document.getElementById('longitude').value);
+
+            const newLocation = {
+                locationName: locationName,
+                latitude: latitude,
+                longitude: longitude
+            };
+
+            // Show the "Request sent" notification
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none'; // Hide the notification after 2 seconds
+            }, 2000);
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(newLocation)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add new location');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Location added:', data);
+                fetchGeoData(); // Refresh the list after adding a new location
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Attach event listeners
+        document.getElementById('addLocationForm').addEventListener('submit', addLocation);
+
+        // Fetch GeoData on page load
+        fetchGeoData();
+    </script>
+</body>
+</html>

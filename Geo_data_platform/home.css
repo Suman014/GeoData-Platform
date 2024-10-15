@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4; /* Background color added */
+}
+
+h1, h2 {
+    color: #333; /* Combined h1 and h2 styles */
+}
+
+#geoDataContainer {
+    margin-top: 20px; /* Added margin for geoDataContainer */
+}
+
+ul {
+    list-style-type: none; /* Removed list styling */
+    padding: 0; /* Removed padding */
+}
+
+li {
+    background: #fff; /* White background for list items */
+    padding: 10px; /* Padding for list items */
+    margin-bottom: 5px; /* Space between list items */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+form {
+    background: #fff; /* Form background color */
+    padding: 20px; /* Padding inside form */
+    border-radius: 4px; /* Rounded corners for form */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-top: 20px; /* Margin above form */
+}
+
+label {
+    display: block; /* Labels as block elements */
+    margin: 10px 0 5px; /* Margin around labels */
+}
+
+input {
+    width: 100%; /* Full-width input fields */
+    padding: 8px; /* Padding for inputs */
+    margin-bottom: 10px; /* Space below inputs */
+    border-radius: 4px; /* Rounded corners for inputs */
+    border: 1px solid #ccc; /* Border for inputs */
+}
+
+button {
+    background-color: #007BFF; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* No border for button */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 4px; /* Rounded corners for button */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker background on hover */
+}
